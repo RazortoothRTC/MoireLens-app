@@ -3,10 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2637B35F287C6DE800906C9A /* FReactangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2637B35E287C6DE800906C9A /* FReactangle.swift */; };
+		2637B361287C6DF400906C9A /* FCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2637B360287C6DF400906C9A /* FCircle.swift */; };
+		2637B363287C6DFE00906C9A /* FLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2637B362287C6DFE00906C9A /* FLines.swift */; };
+		2637B365287C6E0E00906C9A /* FStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2637B364287C6E0E00906C9A /* FStar.swift */; };
+		2637B367287C6EAD00906C9A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2637B366287C6EAD00906C9A /* Constants.swift */; };
+		2637B369287C6ECC00906C9A /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2637B368287C6ECC00906C9A /* Filter.swift */; };
 		267254A4283CE24D00335E37 /* MoireLensApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26725494283CE24C00335E37 /* MoireLensApp.swift */; };
 		267254A5283CE24D00335E37 /* MoireLensApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26725494283CE24C00335E37 /* MoireLensApp.swift */; };
 		267254A6283CE24D00335E37 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26725495283CE24C00335E37 /* ContentView.swift */; };
@@ -20,6 +26,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2637B35E287C6DE800906C9A /* FReactangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FReactangle.swift; sourceTree = "<group>"; };
+		2637B360287C6DF400906C9A /* FCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCircle.swift; sourceTree = "<group>"; };
+		2637B362287C6DFE00906C9A /* FLines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLines.swift; sourceTree = "<group>"; };
+		2637B364287C6E0E00906C9A /* FStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FStar.swift; sourceTree = "<group>"; };
+		2637B366287C6EAD00906C9A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		2637B368287C6ECC00906C9A /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		26725494283CE24C00335E37 /* MoireLensApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoireLensApp.swift; sourceTree = "<group>"; };
 		26725495283CE24C00335E37 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		26725496283CE24D00335E37 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,6 +61,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2637B35D287C6DC300906C9A /* filters */ = {
+			isa = PBXGroup;
+			children = (
+				2637B35E287C6DE800906C9A /* FReactangle.swift */,
+				2637B360287C6DF400906C9A /* FCircle.swift */,
+				2637B362287C6DFE00906C9A /* FLines.swift */,
+				2637B364287C6E0E00906C9A /* FStar.swift */,
+				2637B368287C6ECC00906C9A /* Filter.swift */,
+			);
+			name = filters;
+			sourceTree = "<group>";
+		};
 		2672548E283CE24C00335E37 = {
 			isa = PBXGroup;
 			children = (
@@ -62,11 +86,13 @@
 		26725493283CE24C00335E37 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				2637B35D287C6DC300906C9A /* filters */,
 				26725494283CE24C00335E37 /* MoireLensApp.swift */,
 				26725495283CE24C00335E37 /* ContentView.swift */,
 				26725496283CE24D00335E37 /* Assets.xcassets */,
 				268B499528577A3F00C2EC6E /* ViewModel.swift */,
 				268B49982857921C00C2EC6E /* Model.swift */,
+				2637B366287C6EAD00906C9A /* Constants.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -144,7 +170,7 @@
 				};
 			};
 			buildConfigurationList = 26725492283CE24C00335E37 /* Build configuration list for PBXProject "MoireLens" */;
-			compatibilityVersion = "Xcode 13.0";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -186,10 +212,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2637B361287C6DF400906C9A /* FCircle.swift in Sources */,
+				2637B369287C6ECC00906C9A /* Filter.swift in Sources */,
+				2637B363287C6DFE00906C9A /* FLines.swift in Sources */,
 				267254A6283CE24D00335E37 /* ContentView.swift in Sources */,
 				268B499628577A3F00C2EC6E /* ViewModel.swift in Sources */,
 				267254A4283CE24D00335E37 /* MoireLensApp.swift in Sources */,
 				268B49992857921C00C2EC6E /* Model.swift in Sources */,
+				2637B365287C6E0E00906C9A /* FStar.swift in Sources */,
+				2637B35F287C6DE800906C9A /* FReactangle.swift in Sources */,
+				2637B367287C6EAD00906C9A /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

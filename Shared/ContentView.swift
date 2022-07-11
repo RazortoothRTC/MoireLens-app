@@ -22,31 +22,35 @@ struct ContentView_Previews: PreviewProvider {
 
 struct CameraView: View{
     @State private var filtersPreview = [
-        FilterModel(index: 0, isPreview: true),
-        FilterModel(index: 1, isPreview: true),
-        FilterModel(index: 2, isPreview: true),
-        FilterModel(index: 3, isPreview: true)
+        FilterModel(filter: .circle, isPreview: true),
+        FilterModel(filter: .rectangle, isPreview: true),
+        FilterModel(filter: .lines, isPreview: true),
+        FilterModel(filter: .start, isPreview: true)
     ]
     @StateObject var camera = CameraModel()
     @StateObject var viewModel = ViewModel()
     var body: some View{
-        VStack{
-            ZStack{
-                CameraPreview(camera: camera).ignoresSafeArea(.all, edges: .all
-                )
-                Filter(data: FilterModel(index: viewModel.indexFilter, isPreview: false)).ignoresSafeArea(.all, edges: .all
-                )
-            }.onAppear {
-                camera.Check()
-            }.frame(maxHeight: 800).clipped()
-            ScrollView(.horizontal, showsIndicators: false) {
-              HStack {
-                ForEach(filtersPreview,id: \.index) { filterPreview in
-                    Filter(data: filterPreview).environmentObject(viewModel)
-                  Divider()
-                }
-              }
-            }.background(Color.gray)
+        GeometryReader { geometry in
+            VStack{
+                ZStack(alignment: .center){
+                    CameraPreview(camera: camera).ignoresSafeArea(.all, edges: .all
+                    ).frame(width: geometry.size.width, alignment: .center)
+                    Filter(data: FilterModel(filter: viewModel.indexFilter, isPreview: false))
+                        .clipped()
+                }.onAppear {
+                    camera.Check()
+                }.frame(width: geometry.size.width, height: geometry.size.height / 1.4, alignment: .center).clipped()
+                ScrollView(.horizontal, showsIndicators: false) {
+                  HStack {
+                      ForEach(filtersPreview,id: \.filter) { filterPreview in
+                        Filter(data: filterPreview).environmentObject(viewModel).frame(width: Constant.sizeWidthPreview, alignment: .center)
+                            .clipped()
+                      Divider()
+                    }
+                  }
+                }.frame(height: Constant.sizeWidthPreview)
+                .background(Color.gray)
+            }
         }
     }
 }
@@ -75,91 +79,6 @@ struct TakePictureButton: View {
                             }
                     })
                 }
-            }
-        }
-    }
-}
-
-struct Filter: View {
-    @EnvironmentObject var viewModel : ViewModel
-    var data: FilterModel
-    let scalePreview = 20
-    let scaleCamera = 100
-    var body: some View {
-            Button {
-                if data.isPreview {
-                    viewModel.indexFilter = data.index
-                }
-            } label: {
-                switch data.index {
-                case 0:
-                    Filter1(scale: data.isPreview ? scalePreview : scaleCamera)
-                case 1:
-                    Filter2(scale: data.isPreview ? scalePreview : scaleCamera)
-                case 2:
-                    Filter3(scale: data.isPreview ? scalePreview : scaleCamera)
-                case 3:
-                    Filter4(scale: data.isPreview ? scalePreview : scaleCamera)
-                default:
-                    Filter1(scale: data.isPreview ? scalePreview : scaleCamera)
-                }
-            }.frame(width: data.isPreview ? 150 : .infinity, height: data.isPreview ? 150 : .infinity).clipped()
-        
-    }
-}
-
-struct Filter1: View{
-    var scale: Int
-    var body: some View{
-        ZStack {
-            ForEach(0..<scale) { i in
-                let space = i * 10
-                Circle()
-                .stroke(Color.white, lineWidth: 2)
-                .frame(width: CGFloat(space), height: CGFloat(space), alignment: .center)
-                }
-        }
-    }
-}
-
-struct Filter2: View{
-    var scale: Int
-    var body: some View{
-        ZStack {
-            ForEach(0..<scale) { i in
-                Rectangle()
-                    .stroke(Color.white, lineWidth: 2).frame(width: CGFloat(10 * i), height: CGFloat(10 * i), alignment: .center)
-            }
-        }
-    }
-}
-
-struct Filter3: View{
-    var scale: Int
-    var body: some View{
-        HStack{
-            ForEach(0..<scale) { i in
-                    Rectangle()
-                    .fill(.white)
-                    .frame(width: 1, height: 1000)
-                    .edgesIgnoringSafeArea(.vertical)
-                }
-            
-        }
-    }
-}
-
-struct Filter4: View{
-    var scale: Int
-    var body: some View{
-        ZStack{
-            Rectangle()
-                .stroke(Color.white, lineWidth: 2).frame(width: .infinity, height: .infinity, alignment: .center)
-            ForEach(0..<scale * 5) { i in
-                Rectangle()
-                    .fill(.white)
-                    .frame(width: 2, height: 1000)
-                    .rotationEffect(Angle(degrees: Double(90 + (i * 5)) ))
             }
         }
     }
@@ -199,9 +118,11 @@ class CameraModel: ObservableObject{
             
             //let device = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back)
             
-            let device = AVCaptureDevice.default(for: AVMediaType.video)
+            guard let device = AVCaptureDevice.default(for: AVMediaType.video) else {
+                return
+            }
             
-            let input = try AVCaptureDeviceInput(device: device!)
+            let input = try AVCaptureDeviceInput(device: device)
             
             //checking and adding to session
             
