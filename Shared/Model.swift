@@ -8,6 +8,6 @@
 import Foundation
 
 struct FilterModel {
-    var index: Int
+    var filter: FILTERS
     var isPreview: Bool
 }

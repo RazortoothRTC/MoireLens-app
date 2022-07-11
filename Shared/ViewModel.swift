@@ -8,5 +8,5 @@
 import Foundation
 
 class ViewModel: ObservableObject {
-    @Published var indexFilter = 0
+    @Published var indexFilter: FILTERS = .circle
 }
