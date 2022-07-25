@@ -21,7 +21,7 @@ struct FLines: View{
             HStack{
                 ForEach(0..<Constant.num) { i in
                         Rectangle()
-                        .fill(.white)
+                        .fill(Color.black)
                         .frame(
                             width: Constant.borderWidth,
                             height: geometry.size.height)

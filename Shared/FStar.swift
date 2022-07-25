@@ -20,7 +20,7 @@ struct FStart: View{
         ZStack{
             ForEach(0..<scale * 5) { i in
                 Rectangle()
-                    .fill(.white)
+                    .fill(Color.white)
                     .frame(width: Constant.borderWidth, height: 1000)
                     .rotationEffect(Angle(degrees: Double(90 + (i * 5)) ))
             }
