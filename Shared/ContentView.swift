@@ -9,8 +9,8 @@
 import AVFoundation
 import SwiftUI
 
-var swipePreview = true;
-var chosenColor = 1.0;
+var swipePreview = true
+var chosenColor = 1.0
 
 struct ContentView: View {
     var body: some View {
