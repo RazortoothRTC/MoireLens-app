@@ -3,10 +3,14 @@
 //  Shared
 //
 //  Created by Delta on 24/5/22.
+//  Edited by Astra on 1/8/23.
 //
 
 import AVFoundation
 import SwiftUI
+
+var swipePreview = true;
+var chosenColor = 1.0;
 
 struct ContentView: View {
     var body: some View {
@@ -22,21 +26,25 @@ struct ContentView_Previews: PreviewProvider {
 
 struct CameraView: View{
     @State private var filtersPreview = [
-        FilterModel(filter: .circle, isPreview: true),
-        FilterModel(filter: .rectangle, isPreview: true),
-        FilterModel(filter: .lines, isPreview: true),
-        FilterModel(filter: .start, isPreview: true)
+        FilterModel(filter: .circle, isPreview: true, color: chosenColor),
+        FilterModel(filter: .rectangle, isPreview: true, color: abs(chosenColor - 1.0)),
+        FilterModel(filter: .lines, isPreview: true, color: abs(chosenColor - 1.0)),
+        FilterModel(filter: .start, isPreview: true, color: chosenColor)
     ]
     @StateObject var camera = CameraModel()
     @StateObject var viewModel = ViewModel()
     var body: some View{
+        let _ = print("test")
         GeometryReader { geometry in
             VStack{
                 ZStack(alignment: .center){
                     CameraPreview(camera: camera).ignoresSafeArea(.all, edges: .all
                     ).frame(width: geometry.size.width, alignment: .center)
-                    Filter(data: FilterModel(filter: viewModel.indexFilter, isPreview: false))
-                        .clipped()
+                    // this code adds the filter
+                    if (swipePreview) {
+                        Filter(data: FilterModel(filter: viewModel.indexFilter, isPreview: false, color: chosenColor))
+                            .clipped()
+                    }
                 }.onAppear {
                     camera.Check()
                 }.frame(width: geometry.size.width, height: geometry.size.height / 1.4, alignment: .center).clipped()
@@ -50,6 +58,28 @@ struct CameraView: View{
                   }
                 }.frame(height: Constant.sizeWidthPreview)
                 .background(Color.gray)
+                HStack(alignment: .center) {
+                    Button(action: {
+                        if chosenColor == 1.0 {
+                            chosenColor = 0.0
+                        } else {
+                            chosenColor = 1.0
+                        }
+                    }) {
+                        Text("Color Toggle")
+                        .padding(10)
+                        .foregroundColor(.white)
+                        .background(Color.pink)
+                    }
+                    Button(action: {
+                        swipePreview.toggle()
+                    }) {
+                        Text("Show/Hide Toggle")
+                        .padding(10)
+                        .foregroundColor(.white)
+                        .background(Color.pink)
+                    }
+                }
             }
         }
     }
@@ -62,6 +92,7 @@ struct TakePictureButton: View {
             HStack{
                 if isTaken {
                     Button(action: {}, label: {
+                        
                         //todo
                     })
                 }else{
@@ -169,5 +200,3 @@ struct CameraPreview: UIViewRepresentable {
         
     }
 }
-
-
