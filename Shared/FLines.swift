@@ -3,7 +3,7 @@
 //  MoireLens (iOS)
 //
 //  Created by Delta on 11/7/22.
-//  Edited by Astra on 1/8/22.
+//  Edited by Astra on 1/8/23.
 //
 
 import SwiftUI
