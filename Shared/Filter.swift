@@ -2,7 +2,8 @@
 //  Filter.swift
 //  MoireLens (iOS)
 //
-//  Created by Delta on 11/7/22.
+//  Created by Delta on 11/7/22
+//  Edited by Astra on 1/8/23
 //
 
 import SwiftUI
@@ -26,13 +27,13 @@ struct Filter: View {
             } label: {
                 switch data.filter {
                 case .circle:
-                    FCircle(isPreview: data.isPreview)
+                    FCircle(isPreview: data.isPreview, color: data.color)
                 case .rectangle:
-                    FReactngle(isPreview: data.isPreview)
+                    FReactngle(isPreview: data.isPreview, color: data.color)
                 case .lines:
-                    FLines(isPreview: data.isPreview)
+                    FLines(isPreview: data.isPreview, color: data.color)
                 case .start:
-                    FStart(isPreview: data.isPreview)
+                    FStart(isPreview: data.isPreview, color: data.color)
                 }
             }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
         }
