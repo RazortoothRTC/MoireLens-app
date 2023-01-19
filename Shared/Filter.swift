@@ -2,8 +2,8 @@
 //  Filter.swift
 //  MoireLens (iOS)
 //
-//  Created by Delta on 11/7/22
-//  Edited by Astra on 1/8/23
+//  Created by Delta on 11/7/22.
+//  Edited by Astra on 1/8/23.
 //
 
 import SwiftUI
@@ -13,6 +13,7 @@ enum FILTERS {
     case circle
     case start
     case lines
+    case horizontal
 }
 
 struct Filter: View {
@@ -34,6 +35,8 @@ struct Filter: View {
                     FLines(isPreview: data.isPreview, color: data.color)
                 case .start:
                     FStart(isPreview: data.isPreview, color: data.color)
+                case .horizontal:
+                    FHorizontal(isPreview: data.isPreview, color: data.color)
                 }
             }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
         }
