@@ -9,8 +9,8 @@
 import AVFoundation
 import SwiftUI
 
-var swipePreview = true
-var chosenColor = 1.0
+var swipePreview = true;
+var chosenColor = 1.0;
 
 struct ContentView: View {
     var body: some View {
@@ -29,7 +29,8 @@ struct CameraView: View{
         FilterModel(filter: .circle, isPreview: true, color: chosenColor),
         FilterModel(filter: .rectangle, isPreview: true, color: abs(chosenColor - 1.0)),
         FilterModel(filter: .lines, isPreview: true, color: abs(chosenColor - 1.0)),
-        FilterModel(filter: .start, isPreview: true, color: chosenColor)
+        FilterModel(filter: .start, isPreview: true, color: chosenColor),
+        FilterModel(filter: .horizontal, isPreview: true, color: abs(chosenColor - 1.0))
     ]
     @StateObject var camera = CameraModel()
     @StateObject var viewModel = ViewModel()
@@ -91,13 +92,14 @@ struct TakePictureButton: View {
         VStack{
             HStack{
                 if isTaken {
-                    Button(action: {}, label: {
-                        
-                        //todo
+                    Button(action: {
+                        playSound(sound: "mixkit-camera-shutter-click-1133", type: "wav")
+                    }, label: {
+                    
                     })
                 }else{
                     Button(action: {
-                        //todo
+                        playSound(sound: "mixkit-camera-shutter-click-1133", type: "wav")
                     }, label:
                         {
                             ZStack{
@@ -198,5 +200,17 @@ struct CameraPreview: UIViewRepresentable {
     
     func updateUIView(_ uiView: UIView, context: Context) {
         
+    }
+}
+
+func playSound(sound: String, type: String) {
+    var audioPlayer: AVAudioPlayer?
+    if let path = Bundle.main.path(forResource: sound, ofType: type) {
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: NSURL(fileURLWithPath: path) as URL)
+            audioPlayer?.play()
+        } catch {
+            print("Could not find and play the sound file.")
+        }
     }
 }
