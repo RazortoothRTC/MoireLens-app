@@ -25,10 +25,11 @@ struct FReactngle: View{
                 Rectangle()
                     .stroke(Color(white: color), lineWidth: Constant.borderWidth)
                     .frame(
-                        width: Constant.minSizeShape + (CGFloat(i) * 4),
-                        height: Constant.minSizeShape + (CGFloat(i) * 4),
+                        width: Constant.minSizeShape + (CGFloat(i) * 3),
+                        height: Constant.minSizeShape + (CGFloat(i) * 3),
                         alignment: .center)
             }
         }
     }
 }
+

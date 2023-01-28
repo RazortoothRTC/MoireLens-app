@@ -3,14 +3,14 @@
 //  Shared
 //
 //  Created by Delta on 24/5/22.
-//  Edited by Astra on 1/8/23.
+//  Edited by Astra on 1/27/23.
 //
 
 import AVFoundation
 import SwiftUI
 
-var swipePreview = true
-var chosenColor = 1.0
+var swipePreview = true;
+var chosenColor = 1.0;
 
 struct ContentView: View {
     var body: some View {
@@ -29,7 +29,8 @@ struct CameraView: View{
         FilterModel(filter: .circle, isPreview: true, color: chosenColor),
         FilterModel(filter: .rectangle, isPreview: true, color: abs(chosenColor - 1.0)),
         FilterModel(filter: .lines, isPreview: true, color: abs(chosenColor - 1.0)),
-        FilterModel(filter: .start, isPreview: true, color: chosenColor)
+        FilterModel(filter: .start, isPreview: true, color: chosenColor),
+        FilterModel(filter: .horizontal, isPreview: true, color: abs(chosenColor - 1.0))
     ]
     @StateObject var camera = CameraModel()
     @StateObject var viewModel = ViewModel()
@@ -47,7 +48,57 @@ struct CameraView: View{
                     }
                 }.onAppear {
                     camera.Check()
-                }.frame(width: geometry.size.width, height: geometry.size.height / 1.4, alignment: .center).clipped()
+                }.frame(width: geometry.size.width, height: geometry.size.height / 1.6, alignment: .center).clipped()
+                HStack{
+                    
+                    // if taken showing save and again take button...
+                    
+                    if camera.isTaken{
+                        Spacer()
+                        
+                        Button(action: camera.reTake, label: {
+
+                            Image(systemName: "arrow.triangle.2.circlepath.camera")
+                                .foregroundColor(.black)
+                                .padding()
+                                .background(Color.white)
+                                .clipShape(Circle())
+                        })
+                        .padding(.trailing,10)
+                        
+                        Spacer()
+                        
+                        Button(action: {if !camera.isSaved{camera.savePic()}}, label: {
+                            Text(camera.isSaved ? "Saved" : "Save")
+                                .foregroundColor(.black)
+                                .fontWeight(.semibold)
+                                .padding(.vertical,10)
+                                .padding(.horizontal,20)
+                                .background(Color.white)
+                                .clipShape(Capsule())
+                        })
+                        .padding(.leading)
+                        
+                        Spacer()
+                    }
+                    else{
+                        
+                        Button(action: camera.takePic, label: {
+                            
+                            ZStack{
+                                
+                                Circle()
+                                    .fill(Color.white)
+                                    .frame(width: 65, height: 65)
+                                
+                                Circle()
+                                    .stroke(Color.white,lineWidth: 2)
+                                    .frame(width: 75, height: 75)
+                            }
+                        })
+                    }
+                }
+                .frame(height: 75)
                 ScrollView(.horizontal, showsIndicators: false) {
                   HStack {
                       ForEach(filtersPreview,id: \.filter) { filterPreview in
@@ -85,44 +136,16 @@ struct CameraView: View{
     }
 }
 
-struct TakePictureButton: View {
-    var isTaken: Bool
-    var body: some View {
-        VStack{
-            HStack{
-                if isTaken {
-                    Button(action: {}, label: {
-                        
-                        //todo
-                    })
-                }else{
-                    Button(action: {
-                        //todo
-                    }, label:
-                        {
-                            ZStack{
-                                Circle()
-                                    .fill(Color.white)
-                                    .frame(width: 65, height: 65, alignment: .center)
-                                Circle()
-                                    .stroke(Color.white, lineWidth: 2)
-                                    .frame(width: 75, height: 75, alignment: .center)
-                            }
-                    })
-                }
-            }
-        }
-    }
-}
-
 //camera model
 
-class CameraModel: ObservableObject{
+class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
     @Published var isTaken = false
     @Published var session = AVCaptureSession()
     @Published var alert = false
+    @Published var isSaved = false
     @Published var output = AVCapturePhotoOutput()
     @Published var preview: AVCaptureVideoPreviewLayer!
+    @Published var picData = Data(count: 0)
     
     func Check(){
         switch AVCaptureDevice.authorizationStatus(for: .video){
@@ -172,6 +195,62 @@ class CameraModel: ObservableObject{
         }catch{
             print(error.localizedDescription)
         }
+    }
+    
+    //take and retake photos
+    
+    func takePic(){
+        
+        self.output.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
+        
+        DispatchQueue.global(qos: .background).async {
+            
+            self.session.stopRunning()
+            
+            DispatchQueue.main.async {
+                withAnimation{self.isTaken.toggle()}
+            }
+        }
+    }
+    
+    func reTake(){
+        
+        DispatchQueue.global(qos: .background).async {
+            
+            self.session.startRunning()
+            
+            DispatchQueue.main.async {
+                withAnimation{self.isTaken.toggle()}
+                //clearing ...
+                self.isSaved = false
+                self.picData = Data(count: 0)
+            }
+        }
+    }
+    
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        
+        if error != nil{
+            return
+        }
+        
+        print("pic taken...")
+        
+        guard let imageData = photo.fileDataRepresentation() else{return}
+        
+        self.picData = imageData
+    }
+    
+    func savePic(){
+        
+        guard let image = UIImage(data: self.picData) else{return}
+        
+        // saving Image...
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        
+        self.isSaved = true
+        
+        print("saved Successfully....")
     }
 }
 
