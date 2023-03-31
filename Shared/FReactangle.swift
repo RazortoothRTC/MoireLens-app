@@ -25,8 +25,8 @@ struct FReactngle: View{
                 Rectangle()
                     .stroke(Color(white: color), lineWidth: Constant.borderWidth)
                     .frame(
-                        width: Constant.minSizeShape + (CGFloat(i) * 3),
-                        height: Constant.minSizeShape + (CGFloat(i) * 3),
+                        width: Constant.minSizeShape + (CGFloat(i) * 2),
+                        height: Constant.minSizeShape + (CGFloat(i) * 2),
                         alignment: .center)
             }
         }
