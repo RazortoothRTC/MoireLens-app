@@ -3,7 +3,7 @@
 //  Shared
 //
 //  Created by Delta on 24/5/22.
-//  Edited by Astra on 2/1/23.
+//  Edited by Astra on 1/8/23.
 //
 
 import AVFoundation
@@ -56,25 +56,25 @@ struct CameraView: View{
                             
                             Circle()
                                 .fill(Color.white)
-                                .frame(width: 65, height: 65)
+                                .frame(width: geometry.size.height / 11, height: geometry.size.height / 11)
                             
                             Circle()
                                 .stroke(Color.white,lineWidth: 2)
-                                .frame(width: 75, height: 75)
+                                .frame(width: geometry.size.height / 10, height: geometry.size.height / 10)
                         }
                     })
                     
                 }
-                .frame(height: 75)
+                .frame(height: geometry.size.height / 10)
                 ScrollView(.horizontal, showsIndicators: false) {
                   HStack {
                       ForEach(filtersPreview,id: \.filter) { filterPreview in
-                        Filter(data: filterPreview).environmentObject(viewModel).frame(width: Constant.sizeWidthPreview, alignment: .center)
+                          Filter(data: filterPreview).environmentObject(viewModel).frame(width: geometry.size.height / 6, height: geometry.size.height / 6, alignment: .center)
                             .clipped()
                       Divider()
                     }
                   }
-                }.frame(height: Constant.sizeWidthPreview)
+                }.frame(height: geometry.size.height / 6)
                 .background(Color.gray)
                 HStack(alignment: .center) {
                     Button(action: {
