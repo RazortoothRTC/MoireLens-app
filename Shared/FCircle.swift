@@ -25,8 +25,8 @@ struct FCircle: View{
                     Circle()
                         .stroke(Color(white: color), lineWidth: Constant.borderWidth)
                     .frame(
-                        width: Constant.minSizeShape + (CGFloat(i) * (isPreview ? 2 : 3)) + (isPreview ? 20 : 0),
-                        height: Constant.minSizeShape + (CGFloat(i) * (isPreview ? 2 : 3)) + (isPreview ? 20 : 0),
+                        width: Constant.minSizeShape + (CGFloat(i) * (isPreview ? 2 : 2)) + (isPreview ? 20 : 0),
+                        height: Constant.minSizeShape + (CGFloat(i) * (isPreview ? 2 : 2)) + (isPreview ? 20 : 0),
                         alignment: .center)
                 }
             }
