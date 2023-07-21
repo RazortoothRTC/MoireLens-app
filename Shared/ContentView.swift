@@ -56,20 +56,20 @@ struct CameraView: View{
                             
                             Circle()
                                 .fill(Color.white)
-                                .frame(width: geometry.size.height / 11, height: geometry.size.height / 11)
+                                .frame(width: geometry.size.width / 5, height: geometry.size.height / 10)
                             
                             Circle()
                                 .stroke(Color.white,lineWidth: 2)
-                                .frame(width: geometry.size.height / 10, height: geometry.size.height / 10)
+                                .frame(width: geometry.size.width / 4.5, height: geometry.size.height / 9)
                         }
                     })
                     
                 }
-                .frame(height: geometry.size.height / 10)
+                .frame(height: geometry.size.height / 8.5)
                 ScrollView(.horizontal, showsIndicators: false) {
                   HStack {
                       ForEach(filtersPreview,id: \.filter) { filterPreview in
-                          Filter(data: filterPreview).environmentObject(viewModel).frame(width: geometry.size.height / 6, height: geometry.size.height / 6, alignment: .center)
+                        Filter(data: filterPreview).environmentObject(viewModel).frame(width: geometry.size.height / 6, alignment: .center)
                             .clipped()
                       Divider()
                     }
@@ -85,7 +85,7 @@ struct CameraView: View{
                         }
                     }) {
                         Text("Color Toggle")
-                        .padding(10)
+                        .padding(geometry.size.height / 70)
                         .foregroundColor(.white)
                         .background(Color.pink)
                     }
@@ -93,7 +93,7 @@ struct CameraView: View{
                         swipePreview.toggle()
                     }) {
                         Text("Show/Hide Toggle")
-                        .padding(10)
+                        .padding(geometry.size.height / 70)
                         .foregroundColor(.white)
                         .background(Color.pink)
                     }
@@ -170,9 +170,9 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
     func takePic(){
         print("success")
         self.output.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
-        
-        
-        savePic()
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (timer) in
+            self.savePic()
+        }
         
     }
     
