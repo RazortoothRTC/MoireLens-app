@@ -15,7 +15,7 @@ struct FReactngle: View{
     
     init(isPreview: Bool, color: Double) {
         self.isPreview = isPreview
-        self.numShapes = Constant.num / (isPreview ? 3 : 1)
+        self.numShapes = Constant.num / (isPreview ? 5 : 2)
         self.color = color
     }
     
