@@ -23,6 +23,7 @@
 		268B499728577A3F00C2EC6E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268B499528577A3F00C2EC6E /* ViewModel.swift */; };
 		268B49992857921C00C2EC6E /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268B49982857921C00C2EC6E /* Model.swift */; };
 		268B499A2857921C00C2EC6E /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268B49982857921C00C2EC6E /* Model.swift */; };
+		E6253A262985CAD300AB74ED /* FHorizontal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6253A252985CAD300AB74ED /* FHorizontal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		267254B2283D087700335E37 /* MoireLens--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "MoireLens--iOS--Info.plist"; sourceTree = "<group>"; };
 		268B499528577A3F00C2EC6E /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		268B49982857921C00C2EC6E /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		E6253A252985CAD300AB74ED /* FHorizontal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FHorizontal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				2637B362287C6DFE00906C9A /* FLines.swift */,
 				2637B364287C6E0E00906C9A /* FStar.swift */,
 				2637B368287C6ECC00906C9A /* Filter.swift */,
+				E6253A252985CAD300AB74ED /* FHorizontal.swift */,
 			);
 			name = filters;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 				268B499628577A3F00C2EC6E /* ViewModel.swift in Sources */,
 				267254A4283CE24D00335E37 /* MoireLensApp.swift in Sources */,
 				268B49992857921C00C2EC6E /* Model.swift in Sources */,
+				E6253A262985CAD300AB74ED /* FHorizontal.swift in Sources */,
 				2637B365287C6E0E00906C9A /* FStar.swift in Sources */,
 				2637B35F287C6DE800906C9A /* FReactangle.swift in Sources */,
 				2637B367287C6EAD00906C9A /* Constants.swift in Sources */,
