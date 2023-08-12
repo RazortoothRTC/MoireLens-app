@@ -15,7 +15,7 @@ struct FCircle: View{
     
     init(isPreview: Bool, color: Double) {
         self.isPreview = isPreview
-        self.numShapes = Constant.num / (isPreview ? 2 : 1)
+        self.numShapes = Constant.num / (isPreview ? 4 : 2)
         self.color = color
     }
     
@@ -25,8 +25,8 @@ struct FCircle: View{
                     Circle()
                         .stroke(Color(white: color), lineWidth: Constant.borderWidth)
                     .frame(
-                        width: Constant.minSizeShape + (CGFloat(i) * (isPreview ? 2 : 3)) + (isPreview ? 20 : 0),
-                        height: Constant.minSizeShape + (CGFloat(i) * (isPreview ? 2 : 3)) + (isPreview ? 20 : 0),
+                        width: Constant.minSizeShape + (CGFloat(i) * (isPreview ? 1 : 2)),
+                        height: Constant.minSizeShape + (CGFloat(i) * (isPreview ? 1 : 2)),
                         alignment: .center)
                 }
             }

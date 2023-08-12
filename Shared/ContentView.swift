@@ -3,7 +3,7 @@
 //  Shared
 //
 //  Created by Delta on 24/5/22.
-//  Edited by Astra on 1/27/23.
+//  Edited by Astra on 1/8/23.
 //
 
 import AVFoundation
@@ -50,64 +50,31 @@ struct CameraView: View{
                     camera.Check()
                 }.frame(width: geometry.size.width, height: geometry.size.height / 1.6, alignment: .center).clipped()
                 HStack{
-                    
-                    // if taken showing save and again take button...
-                    
-                    if camera.isTaken{
-                        Spacer()
+                    Button(action: camera.takePic, label: {
                         
-                        Button(action: camera.reTake, label: {
-
-                            Image(systemName: "arrow.triangle.2.circlepath.camera")
-                                .foregroundColor(.black)
-                                .padding()
-                                .background(Color.white)
-                                .clipShape(Circle())
-                        })
-                        .padding(.trailing,10)
-                        
-                        Spacer()
-                        
-                        Button(action: {if !camera.isSaved{camera.savePic()}}, label: {
-                            Text(camera.isSaved ? "Saved" : "Save")
-                                .foregroundColor(.black)
-                                .fontWeight(.semibold)
-                                .padding(.vertical,10)
-                                .padding(.horizontal,20)
-                                .background(Color.white)
-                                .clipShape(Capsule())
-                        })
-                        .padding(.leading)
-                        
-                        Spacer()
-                    }
-                    else{
-                        
-                        Button(action: camera.takePic, label: {
+                        ZStack{
                             
-                            ZStack{
-                                
-                                Circle()
-                                    .fill(Color.white)
-                                    .frame(width: 65, height: 65)
-                                
-                                Circle()
-                                    .stroke(Color.white,lineWidth: 2)
-                                    .frame(width: 75, height: 75)
-                            }
-                        })
-                    }
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: geometry.size.width / 5, height: geometry.size.height / 10)
+                            
+                            Circle()
+                                .stroke(Color.white,lineWidth: 2)
+                                .frame(width: geometry.size.width / 4.5, height: geometry.size.height / 9)
+                        }
+                    })
+                    
                 }
-                .frame(height: 75)
+                .frame(height: geometry.size.height / 8.5)
                 ScrollView(.horizontal, showsIndicators: false) {
                   HStack {
                       ForEach(filtersPreview,id: \.filter) { filterPreview in
-                        Filter(data: filterPreview).environmentObject(viewModel).frame(width: Constant.sizeWidthPreview, alignment: .center)
+                        Filter(data: filterPreview).environmentObject(viewModel).frame(width: geometry.size.height / 6, alignment: .center)
                             .clipped()
                       Divider()
                     }
                   }
-                }.frame(height: Constant.sizeWidthPreview)
+                }.frame(height: geometry.size.height / 6)
                 .background(Color.gray)
                 HStack(alignment: .center) {
                     Button(action: {
@@ -118,7 +85,7 @@ struct CameraView: View{
                         }
                     }) {
                         Text("Color Toggle")
-                        .padding(10)
+                        .padding(geometry.size.height / 70)
                         .foregroundColor(.white)
                         .background(Color.pink)
                     }
@@ -126,7 +93,7 @@ struct CameraView: View{
                         swipePreview.toggle()
                     }) {
                         Text("Show/Hide Toggle")
-                        .padding(10)
+                        .padding(geometry.size.height / 70)
                         .foregroundColor(.white)
                         .background(Color.pink)
                     }
@@ -175,18 +142,19 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
             guard let device = AVCaptureDevice.default(for: AVMediaType.video) else {
                 return
             }
-            
             let input = try AVCaptureDeviceInput(device: device)
             
             //checking and adding to session
             
             if self.session.canAddInput(input){
+                print("input")
                 self.session.addInput(input)
             }
             
             //same for output
             
             if self.session.canAddOutput(output){
+                print("output")
                 self.session.addOutput(self.output)
             }
             
@@ -200,17 +168,12 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
     //take and retake photos
     
     func takePic(){
-        
+        print("success")
         self.output.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
-        
-        DispatchQueue.global(qos: .background).async {
-            
-            self.session.stopRunning()
-            
-            DispatchQueue.main.async {
-                withAnimation{self.isTaken.toggle()}
-            }
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (timer) in
+            self.savePic()
         }
+        
     }
     
     func reTake(){
@@ -229,7 +192,6 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
     }
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        
         if error != nil{
             return
         }
@@ -242,7 +204,7 @@ class CameraModel: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate{
     }
     
     func savePic(){
-        
+        print("saving")
         guard let image = UIImage(data: self.picData) else{return}
         
         // saving Image...

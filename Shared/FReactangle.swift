@@ -15,7 +15,7 @@ struct FReactngle: View{
     
     init(isPreview: Bool, color: Double) {
         self.isPreview = isPreview
-        self.numShapes = Constant.num / (isPreview ? 3 : 1)
+        self.numShapes = Constant.num / (isPreview ? 5 : 2)
         self.color = color
     }
     
@@ -25,8 +25,8 @@ struct FReactngle: View{
                 Rectangle()
                     .stroke(Color(white: color), lineWidth: Constant.borderWidth)
                     .frame(
-                        width: Constant.minSizeShape + (CGFloat(i) * 3),
-                        height: Constant.minSizeShape + (CGFloat(i) * 3),
+                        width: Constant.minSizeShape + (CGFloat(i) * 2),
+                        height: Constant.minSizeShape + (CGFloat(i) * 2),
                         alignment: .center)
             }
         }
